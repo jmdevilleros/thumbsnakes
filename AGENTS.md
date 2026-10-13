@@ -29,7 +29,7 @@ flutter test
 flutter run -d chrome
 flutter run -d <android_device>
 flutter build web --release
-flutter build apk --release   # requires Android SDK
+flutter build apk --release   # Android SDK at ~/Android, JDK 21 (debug-signed)
 ```
 
 ## Project Structure
@@ -38,10 +38,10 @@ flutter build apk --release   # requires Android SDK
 lib/
   main.dart            # landscape lock + app entry
   game/                # FlameGame (thumbsnakes_game.dart)
-  models/              # direction, board, snake
+  models/              # direction, board (GridPoint), snake
   managers/            # game rules, difficulty, score, high score, input
   screens/             # main menu, game
-  widgets/             # virtual joystick, HUD, pause, game over overlays
+  widgets/             # virtual joystick layer, HUD, pause, game over, menu button
   utils/               # game_config, app_strings, app_colors
 test/                  # unit tests of pure rules
 docs/                  # 00_spec, 01_plan, 02_decisions (ITSD)
@@ -69,6 +69,7 @@ android/  web/
 
 - Fixed-step logic tick (rate from `speedAt(t)`) independent of render FPS
 - Both snakes move in the same tick; compute both new heads, then evaluate collisions
+- HUD/pause/game over are Flutter widgets stacked over `GameWidget`, driven by the game's `ValueNotifier`s (ADR-010)
 - Fixed joysticks (ADR-007): pointer routed by screen half; direction from fixed center, dominant axis + dead zone
 
 ## Prohibiciones

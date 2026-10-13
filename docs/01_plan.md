@@ -86,9 +86,9 @@ flutter pub get && flutter analyze && flutter build web --release
 
 ### Checklist
 
-- [ ] `GameConfig` con `gridCols=32`, `gridRows=18`, `initialLength=4`, `initialDirection=up`, `startSpeed=4.0`, `speedIncrement=0.5`, `speedIntervalSec=15`, `maxSpeed=12.0`, `growthIntervalSec=10`, `growthAmount=1`, `joystickDeadZone=0.25`, `joystickRadius=60`, `inputBufferSize=1`, `resumeCountdownSec=3`, `gameOverInputDelaySec=0.5`
-- [ ] Strings: título, PLAY, RESUME, MENU, RETRY, NEW BEST, hint de controles
-- [ ] Paleta de colores
+- [x] `GameConfig` con `gridCols=32`, `gridRows=18`, `initialLength=4`, `initialDirection=up`, `startSpeed=4.0`, `speedIncrement=0.5`, `speedIntervalSec=15`, `maxSpeed=12.0`, `growthIntervalSec=10`, `growthAmount=1`, `joystickDeadZone=0.25`, `joystickRadius=60`, `inputBufferSize=1`, `resumeCountdownSec=3`, `gameOverInputDelaySec=0.5`
+- [x] Strings: título, PLAY, RESUME, MENU, RETRY, NEW BEST, hint de controles
+- [x] Paleta de colores
 
 ### Checkpoint
 
@@ -114,13 +114,13 @@ flutter analyze && flutter test test/game_config_test.dart
 
 ### Checklist
 
-- [ ] Posiciones iniciales: A en cuarto izquierdo, B en cuarto derecho, ambas hacia arriba, sin colisión en el primer tick
-- [ ] Giro de 180° ignorado; buffer de 1 giro
-- [ ] Tick: calcular ambas cabezas nuevas, luego evaluar colisiones
-- [ ] Colisión con pared, consigo misma, con la otra (cuerpo, cabeza-cabeza, intercambio de cabezas)
-- [ ] Celda de cola liberada cuenta como libre salvo crecimiento
-- [ ] Resultado indica qué culebra / celda causó la derrota
-- [ ] Tests para cada caso anterior
+- [x] Posiciones iniciales: A en cuarto izquierdo, B en cuarto derecho, ambas hacia arriba, sin colisión en el primer tick
+- [x] Giro de 180° ignorado; buffer de 1 giro
+- [x] Tick: calcular ambas cabezas nuevas, luego evaluar colisiones
+- [x] Colisión con pared, consigo misma, con la otra (cuerpo, cabeza-cabeza, intercambio de cabezas)
+- [x] Celda de cola liberada cuenta como libre salvo crecimiento
+- [x] Resultado indica qué culebra / celda causó la derrota
+- [x] Tests para cada caso anterior
 
 ### Checkpoint
 
@@ -146,11 +146,11 @@ flutter test test/game_rules_test.dart
 
 ### Checklist
 
-- [ ] `speedAt(t) = min(maxSpeed, startSpeed + floor(t/speedIntervalSec) × speedIncrement)`
-- [ ] Crecimiento de `growthAmount` cada `growthIntervalSec` en ambas culebras
-- [ ] A los 10 s (defaults) cada culebra mide `initialLength + 1`
-- [ ] Puntaje no avanza en pausa
-- [ ] Tests de límites (t=0, escalones, tope `maxSpeed`)
+- [x] `speedAt(t) = min(maxSpeed, startSpeed + floor(t/speedIntervalSec) × speedIncrement)`
+- [x] Crecimiento de `growthAmount` cada `growthIntervalSec` en ambas culebras
+- [x] A los 10 s (defaults) cada culebra mide `initialLength + 1`
+- [x] Puntaje no avanza en pausa
+- [x] Tests de límites (t=0, escalones, tope `maxSpeed`)
 
 ### Checkpoint
 
@@ -174,12 +174,12 @@ flutter test test/difficulty_test.dart test/score_test.dart
 
 ### Checklist
 
-- [ ] Celdas cuadradas escaladas al viewport; tablero completo visible en 16:9–20:9, dejando franja superior para HUD
-- [ ] Fondo oscuro, grilla tenue, borde visible
-- [ ] Culebras cian/naranja con cabeza más brillante
-- [ ] Lógica a tick fijo independiente del FPS
-- [ ] Teclado de desarrollo: WASD → A, flechas → B
-- [ ] Al perder: resaltar culebra/celda causante y detener
+- [x] Celdas cuadradas escaladas al viewport; tablero completo visible en 16:9–20:9, dejando franja superior para HUD
+- [x] Fondo oscuro, grilla tenue, borde visible
+- [x] Culebras cian/naranja con cabeza más brillante
+- [x] Lógica a tick fijo independiente del FPS
+- [x] Teclado de desarrollo: WASD → A, flechas → B
+- [x] Al perder: resaltar culebra/celda causante y detener
 
 ### Checkpoint
 
@@ -205,12 +205,12 @@ flutter analyze && flutter run -d chrome
 
 ### Checklist
 
-- [ ] Joystick A fijo abajo-izquierda, B fijo abajo-derecha, radio `joystickRadius`
-- [ ] Cualquier toque en una mitad activa su joystick; dirección medida desde el centro fijo
-- [ ] Cuantización por eje dominante con `joystickDeadZone`
-- [ ] Multitouch: cada puntero queda asignado a su mitad mientras dure el toque
-- [ ] Toque en mitad izquierda nunca afecta a B y viceversa
-- [ ] Tests de cuantización y de asignación por mitad
+- [x] Joystick A fijo abajo-izquierda, B fijo abajo-derecha, radio `joystickRadius`
+- [x] Cualquier toque en una mitad activa su joystick; dirección medida desde el centro fijo
+- [x] Cuantización por eje dominante con `joystickDeadZone`
+- [x] Multitouch: cada puntero queda asignado a su mitad mientras dure el toque
+- [x] Toque en mitad izquierda nunca afecta a B y viceversa
+- [x] Tests de cuantización y de asignación por mitad
 
 ### Checkpoint
 
@@ -238,12 +238,12 @@ flutter test test/input_quantize_test.dart && flutter run -d <android_device>
 
 ### Checklist
 
-- [ ] HUD actualiza el tiempo ≥10 veces/s
-- [ ] Pausa con botón, botón atrás de Android y app en segundo plano
-- [ ] RESUME con cuenta regresiva `resumeCountdownSec` (0 = sin cuenta)
-- [ ] MENU desde pausa abandona sin guardar
-- [ ] Game Over con bloqueo `gameOverInputDelaySec`; RETRY reinicia; MENU vuelve
-- [ ] High score en memoria (persistencia en Fase 7)
+- [x] HUD actualiza el tiempo ≥10 veces/s
+- [x] Pausa con botón, botón atrás de Android y app en segundo plano
+- [x] RESUME con cuenta regresiva `resumeCountdownSec` (0 = sin cuenta)
+- [x] MENU desde pausa abandona sin guardar
+- [x] Game Over con bloqueo `gameOverInputDelaySec`; RETRY reinicia; MENU vuelve
+- [x] High score en memoria (persistencia en Fase 7)
 
 ### Checkpoint
 
@@ -269,9 +269,9 @@ flutter analyze && flutter run -d <android_device>
 
 ### Checklist
 
-- [ ] Guardar solo si supera el récord
-- [ ] Error de persistencia → récord en memoria, sin crash
-- [ ] Menú muestra `0.0s` si no hay récord
+- [x] Guardar solo si supera el récord
+- [x] Error de persistencia → récord en memoria, sin crash
+- [x] Menú muestra `0.0s` si no hay récord
 
 ### Checkpoint
 
@@ -297,11 +297,11 @@ flutter test test/high_score_store_test.dart
 
 ### Checklist
 
-- [ ] 60 FPS estables en Android de gama media
-- [ ] Revisar balance con defaults; registrar cambios como ADR
-- [ ] Sin permisos de red ni especiales en el manifest
-- [ ] Ícono / nombre de app "Thumbsnakes"
-- [ ] Flujo completo verificado en Android y Web
+- [~] 60 FPS estables en Android de gama media (pendiente: verificar en dispositivo real; ADR-010)
+- [~] Revisar balance con defaults (defaults sin cambios; ajustar tras prueba en dispositivo)
+- [x] Sin permisos de red ni especiales en el manifest
+- [~] Ícono / nombre de app "Thumbsnakes" (nombre listo; ícono Flutter por defecto, ADR-010)
+- [~] Flujo completo verificado en Android y Web (automatizado con tests de widget/juego + build web; prueba manual en dispositivo pendiente, ADR-010)
 
 ### Checkpoint
 

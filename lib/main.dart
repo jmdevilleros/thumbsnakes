@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'managers/high_score_store.dart';
+import 'screens/main_menu_screen.dart';
+import 'utils/app_strings.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([
@@ -8,20 +12,22 @@ Future<void> main() async {
     DeviceOrientation.landscapeRight,
   ]);
   await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
-  runApp(const ThumbsnakesApp());
+  runApp(ThumbsnakesApp());
 }
 
-/// Phase 0 shell: empty app. Screens arrive in later phases (see docs/01_plan.md).
 class ThumbsnakesApp extends StatelessWidget {
-  const ThumbsnakesApp({super.key});
+  ThumbsnakesApp({super.key, HighScoreStore? highScores})
+    : highScores = highScores ?? HighScoreStore();
+
+  final HighScoreStore highScores;
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Thumbsnakes',
+      title: AppStrings.appName,
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark(),
-      home: const Scaffold(backgroundColor: Colors.black),
+      home: MainMenuScreen(highScores: highScores),
     );
   }
 }

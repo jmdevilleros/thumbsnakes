@@ -158,3 +158,69 @@ Registro de decisiones importantes tomadas durante el desarrollo del proyecto.
 - **Positivas**: estructura ITSD estándar, igual que Voideron.
 - **Negativas / Riesgos**: el `.gitignore` existente ignora `pubspec.lock` (plantilla de paquetes Dart); para una app se recomienda versionarlo → decisión del usuario.
 - **Requiere cambios en**: —
+
+---
+
+### ADR-009 - 2026-10-12 - `Direction` adelantado a Fase 1 y colores sin parámetro en GameConfig
+
+**Estado**: Aceptada
+
+**Contexto**: `GameConfig.initialDirection` (spec §5) necesita un tipo de dirección, planificado para Fase 2 (`lib/models/direction.dart`). Además la spec lista `snakeAColor`/`snakeBColor` como parámetros, mientras el plan de Fase 1 pone la paleta en `app_colors.dart`.
+
+**Decisión**: Crear en Fase 1 solo el `enum Direction { up, down, left, right }`; sus helpers (`opposite`, vector) siguen en Fase 2. Los colores de las culebras viven en `AppColors.snakeA/snakeB` (cian/naranja) como única fuente; `GameConfig` queda solo con parámetros de gameplay. Se añade `AppStrings.seconds()` para el formato `42.3s` (RF-007).
+
+**Alternativas consideradas**:
+- `initialDirection` como String: pierde tipado.
+- Duplicar colores en `GameConfig`: dos fuentes de verdad.
+
+**Consecuencias**:
+- **Positivas**: tipado fuerte, sin duplicación.
+- **Negativas / Riesgos**: Fase 2 amplía un archivo ya existente en vez de crearlo.
+- **Requiere cambios en**: —
+
+---
+
+### ADR-009 - 2026-10-12 - `Direction` enum adelantado a Fase 1
+
+**Estado**: Aceptada
+
+**Contexto**: `GameConfig.initialDirection` (spec §5) necesita un tipo; el plan crea `lib/models/direction.dart` en Fase 2.
+
+**Decisión**: Crear en Fase 1 solo `enum Direction { up, down, left, right }`; `opposite` y vector se agregan en Fase 2. Además, `AppStrings.seconds()` (formato `42.3s`, RF-007) vive en `app_strings.dart` por ser formato de UI.
+
+**Alternativas consideradas**:
+- Guardar la dirección como `String`: menos seguro en tipos.
+
+**Consecuencias**:
+- **Positivas**: config tipada desde el inicio.
+- **Negativas / Riesgos**: ninguno relevante.
+- **Requiere cambios en**: Fase 2 (completa `direction.dart`).
+
+---
+
+### ADR-010 - 2026-10-12 - Decisiones de implementación Fases 2–8 (ejecución continua)
+
+**Estado**: Aceptada
+
+**Contexto**: Juan autorizó ejecutar las Fases 2–8 sin pausas de aprobación. No hay dispositivo Android conectado al box, así que los checkpoints manuales no pueden hacerse en hardware.
+
+**Decisión**:
+- **Estado de juego mutable** (`GameState`) con `GameRules.tick()` puro e independiente de Flame: ambas culebras avanzan y luego se evalúan colisiones; `losses` indica culebra, celda y motivo (`wall`/`self`/`other`). Choque cabeza-cabeza → ambas pierden. Modelo extra `lib/models/cell.dart`.
+- **Fases de partida** `countdown / running / paused / dying / saving / over`; `dying` = resaltado de la derrota durante `lossHighlightSec` antes de Game Over (RF-004); `saving` = guardado del récord antes de mostrar Game Over.
+- **Primera partida y RETRY arrancan sin cuenta regresiva**; la cuenta (`resumeCountdownSec`) aplica solo al reanudar (RF-010).
+- **Constantes de implementación nuevas en `game_config.dart`** (fuera de la tabla §5): `hudHeight=44`, `lossHighlightSec=0.8`, `joystickMargin=24`, `hudRefreshSec=0.1`.
+- **HUD, pausa y Game Over como widgets Flutter** en un `Stack` sobre `GameWidget` (no overlays de Flame), guiados por `ValueNotifier`s del juego (`phase`, `elapsed`); archivo extra `lib/widgets/menu_button.dart`.
+- **Joysticks**: un `Listener` a pantalla completa en `GameScreen` asigna cada puntero a la mitad donde tocó hasta soltarlo; `VirtualJoystick` es solo visual (fijo, semitransparente).
+- **Teclado de desarrollo** (WASD → A, flechas → B) se mantiene en el build final; inofensivo en Android.
+- **Checkpoints manuales sustituidos** por `test/game_flow_test.dart` (loop Flame headless hasta derrota y récord, pausa/cuenta regresiva, reset) y `test/widget_test.dart` (menú → PLAY → pausa → MENU), más `flutter build web` y `flutter build apk`.
+- **Toolchain del box**: Flutter 3.47.7, OpenJDK 21, Android SDK en `~/Android` (platform 36, build-tools 36.0.0).
+- **APK release firmado con la clave debug** (plantilla de Flutter), válido para pruebas, no para Play.
+- Nota: esta ejecución se solapó con otro agente trabajando en la misma carpeta; el código final es una sola implementación coherente verificada por analyze/test/builds.
+
+**Alternativas consideradas**:
+- Overlays de Flame (`overlayBuilderMap`): equivalentes; se prefirió Stack Flutter por simplicidad de tests.
+
+**Consecuencias**:
+- **Positivas**: MVP completo con 29 tests automáticos; APK instalable.
+- **Negativas / Riesgos**: sin verificación en hardware de rendimiento (60 FPS), multitouch real ni sensación de balance; ícono por defecto de Flutter; firma debug.
+- **Requiere cambios en**: prueba manual en dispositivo; firma release y ícono antes de publicar (refinamiento).
