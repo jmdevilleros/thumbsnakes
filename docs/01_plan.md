@@ -56,12 +56,12 @@
 
 ### Checklist
 
-- [ ] `flutter create . --org com.teoktonos --project-name thumbsnakes --platforms=android,web`
-- [ ] Añadir dependencias y `flutter pub get`
-- [ ] Forzar landscape (manifest + `SystemChrome`)
-- [ ] Crear carpetas `lib/{game,models,managers,screens,widgets,utils}` y `test/`
-- [ ] Escribir `AGENTS.md`
-- [ ] Registrar ADR de scaffold si hay desviaciones
+- [x] `flutter create . --org com.teoktonos --project-name thumbsnakes --platforms=android,web`
+- [x] Añadir dependencias y `flutter pub get`
+- [x] Forzar landscape (manifest + `SystemChrome`)
+- [x] Crear carpetas `lib/{game,models,managers,screens,widgets,utils}` y `test/`
+- [x] Escribir `AGENTS.md`
+- [x] Registrar ADR de scaffold si hay desviaciones
 
 ### Checkpoint
 

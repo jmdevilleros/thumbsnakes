@@ -140,3 +140,21 @@ Registro de decisiones importantes tomadas durante el desarrollo del proyecto.
 - **Positivas**: posición predecible, más fácil de aprender y de testear; reutiliza directamente el widget de Voideron.
 - **Negativas / Riesgos**: los pulgares tapan las esquinas inferiores del tablero → joysticks semitransparentes y `joystickRadius` configurable.
 - **Requiere cambios en**: RF-003 (spec v1.1).
+
+---
+
+### ADR-008 - 2026-10-12 - Scaffold Flutter in-place en el repo existente
+
+**Estado**: Aceptada
+
+**Contexto**: El repo `thumbsnakes` ya tenía `README.md`, `.gitignore` (Dart/Flutter, creado por el bot de GitHub) y `docs/`.
+
+**Decisión**: `flutter create . --org com.teoktonos --project-name thumbsnakes --platforms=android,web` en la raíz con Flutter stable 3.47.7 / Dart 3.13.5, sin sobrescribir `README.md` ni `.gitignore`. Dependencias: `flame ^1.38.2`, `shared_preferences ^2.5.6`, `flutter_lints ^6.0.0`. Landscape vía `android:screenOrientation="sensorLandscape"` + `SystemChrome` (landscape + immersiveSticky). El test por defecto se reemplazó por un smoke test del shell vacío.
+
+**Alternativas consideradas**:
+- Subcarpeta `app/`: rechazada para respetar la estructura de la spec §6.
+
+**Consecuencias**:
+- **Positivas**: estructura ITSD estándar, igual que Voideron.
+- **Negativas / Riesgos**: el `.gitignore` existente ignora `pubspec.lock` (plantilla de paquetes Dart); para una app se recomienda versionarlo → decisión del usuario.
+- **Requiere cambios en**: —
